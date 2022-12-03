@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AddCustomer(props) {  
+export default function EditCustomer(props) {  
     //komponenttiin tila, jolla saadaan kontrolloitua
     //dialogi toimii ikkunana ja aukea modaalisesti 
     const [open, setOpen] = useState(false);
@@ -20,13 +20,23 @@ export default function AddCustomer(props) {
       email: "",
       phone: ""
     });
+
+    const fetchCustomer = (link) => {
+        //fetch customer info
+        fetch(link[0].href)
+            .then(response => response.json())
+            .then(data => setCustomer(data))
+        console.log(customer);
+    }
   
     const handleClickOpen = () => {
-      setOpen(true);
+        fetchCustomer(props.link);
+        console.log(customer);
+        setOpen(true);
     };
   
     const handleClose = () => {
-      setOpen(false);
+        setOpen(false);
     };
   
     const handleInputChange = (event) => {
@@ -34,31 +44,23 @@ export default function AddCustomer(props) {
       console.log("inputchange: " + JSON.stringify(event.target.value));
     };
   
-    const addCustomer = () => {
-      props.saveCustomer(customer);
-      setCustomer({
-        firstname: "",
-        lastname: "",
-        streetaddress: "",
-        postcode: "",
-        city: "",
-        email: "",
-        phone: ""
-      })
+    const editCustomer = () => {
+      props.saveCustomer(customer, props.link);
       handleClose();
     };
   
     return (
     <div>
         <Button
-            style={{ margin: 10 }}
+            id="editbutton"
+            style={{ margin: 0 }}
             variant="outlined"
             onClick={handleClickOpen}
         >
-            Add
+            Edit
         </Button>
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add a new customer</DialogTitle>
+            <DialogTitle>Edit a customer</DialogTitle>
             <DialogContent>
             <TextField
                 autoFocus
@@ -120,7 +122,7 @@ export default function AddCustomer(props) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={addCustomer}>Save customer</Button>
+                <Button onClick={editCustomer}>Save customer</Button>
             </DialogActions>
         </Dialog>
     </div>

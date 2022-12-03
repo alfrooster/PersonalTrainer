@@ -4,6 +4,7 @@ import { Typography, Toolbar, AppBar } from '@mui/material';
 import Tabs from'@mui/material/Tabs';
 import Tab from'@mui/material/Tab';
 import { useState } from 'react';
+import "./App.css";
 
 function App() {
   const [value, setValue] = useState('one');

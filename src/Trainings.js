@@ -33,14 +33,17 @@ function Trainings () {
         }
     }
 
-    const deleteTraining = (link) => {
-        console.log("deleted " + link[0].href);
-        fetch(link[0].href , {method: 'DELETE'})
-            .then(response => {
-                if(response.ok) {
-                    fetchTrainings();
+    const deleteTraining = (id) => {
+        if (window.confirm('Are you sure you want to delete training?') == true) {
+            console.log("deleted " + id);
+            fetch("http://customerrest.herokuapp.com/api/trainings/" + id , {method: 'DELETE'})
+                .then(response => {
+                    if(response.ok) {
+                        fetchTrainings();
+                    }
                 }
-            })
+            )
+        }
     }
     const saveTraining = (trainings) => {
         fetch("http://customerrest.herokuapp.com/api/trainings", {
@@ -63,7 +66,7 @@ function Trainings () {
         {
             headerName: '',
             width: 80,
-            field: 'links',
+            field: 'id',
             cellRenderer: params =>
             <IconButton color="error" onClick={() => deleteTraining(params.value)}>
                 <DeleteIcon />
