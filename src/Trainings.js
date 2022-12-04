@@ -3,6 +3,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
+import AddTraining from './AddTraining';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -29,14 +30,15 @@ function Trainings () {
     const dateFormatter = (params) => {
         console.log(params.value);
         if (params.value != "") {
-            return dayjs(params.value).format('D.M.YYYY [at] H.mm');
+            return dayjs(params.value).format('D.M.YYYY [|] H.mm');
         }
     }
 
+    //delete a training
     const deleteTraining = (id) => {
         if (window.confirm('Are you sure you want to delete training?') == true) {
             console.log("deleted " + id);
-            fetch("http://customerrest.herokuapp.com/api/trainings/" + id , {method: 'DELETE'})
+            fetch("http://customerrest.herokuapp.com/api/trainings/" + id , {method: 'DELETE'}) //link to the specific training
                 .then(response => {
                     if(response.ok) {
                         fetchTrainings();
@@ -45,21 +47,25 @@ function Trainings () {
             )
         }
     }
-    const saveTraining = (trainings) => {
+
+    //send a POST request to the API to save the training
+    const saveTraining = (training) => {
         fetch("http://customerrest.herokuapp.com/api/trainings", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(trainings),
+          body: JSON.stringify(training),
         })
           .then((response) => fetchTrainings())
           .catch((err) => console.error(err));
-        console.log(JSON.stringify(trainings));
+        console.log(JSON.stringify(training));
     }
+
+    //create columns, set header names, width etc.
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'date', sortable: true, filter: true, valueFormatter: dateFormatter},
-        {field: 'duration', sortable: true, filter: true, width: 150},
+        {headerName: 'Date | Time', field: 'date', sortable: true, filter: true, valueFormatter: dateFormatter},
+        {headerName: 'Duration (min)', field: 'duration', sortable: true, filter: true, width: 150},
         {field: 'activity', sortable: true, filter: true},
         {headerName: 'Customer', field: 'customer.firstname', sortable: true, filter: true, width: 130},
         {headerName: '', field: 'customer.lastname', sortable: true, filter: true, width: 150},
@@ -67,16 +73,16 @@ function Trainings () {
             headerName: '',
             width: 80,
             field: 'id',
-            cellRenderer: params =>
+            cellRenderer: params => //call the onclick delete function with parameter id of training
             <IconButton color="error" onClick={() => deleteTraining(params.value)}>
                 <DeleteIcon />
-            </IconButton>
+            </IconButton> //render delete button
         }
     ]);
 
     return(
         <>
-            {/*<AddTraining saveTraining={saveTraining} />*/}
+            <AddTraining saveTraining={saveTraining} />
             <div className="ag-theme-alpine" style={{height: '470px', width: '100%', margin: 'auto'}}>
                 <AgGridReact rowData={trainings} columnDefs={columnDefs}
                     animateRows={true} rowSelection='multiple'

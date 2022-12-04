@@ -26,10 +26,11 @@ function Customers () {
             .then(data => setCustomers(data.content))
     }
 
+    //delete a customer
     const deleteCustomer = (link) => {
         if (window.confirm('Are you sure you want to delete customer?') == true) {
             console.log("deleted " + link[0].href);
-            fetch(link[0].href , {method: 'DELETE'})
+            fetch(link[0].href , {method: 'DELETE'}) //link to the specific customer
                 .then(response => {
                     if(response.ok) {
                         fetchCustomers();
@@ -38,19 +39,22 @@ function Customers () {
             )
         }
     }
-    const saveCustomer = (customers) => {
+
+    //send a POST request to the API to save the customer
+    const saveCustomer = (customer) => {
         fetch("http://customerrest.herokuapp.com/api/customers", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(customers),
+          body: JSON.stringify(customer),
         })
           .then((response) => fetchCustomers())
           .catch((err) => console.error(err));
-        console.log(JSON.stringify(customers));
+        console.log(JSON.stringify(customer));
     }
 
+    //send a PUT request to the customer's link to edit the customer
     const saveEditedCustomer = (customer, link) => {
         fetch(link[0].href , {
           method: "PUT",
@@ -64,29 +68,30 @@ function Customers () {
         console.log(JSON.stringify(customer));
     }
 
+    //create columns, set header names, width etc.
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'firstname', sortable: true, filter: true, width: 130},
-        {field: 'lastname', sortable: true, filter: true, width: 150},
-        {field: 'streetaddress', sortable: true, filter: true},
-        {field: 'postcode', sortable: true, filter: true, width: 120},
+        {headerName: "First name", field: 'firstname', sortable: true, filter: true, width: 130},
+        {headerName: "Last name", field: 'lastname', sortable: true, filter: true, width: 150},
+        {headerName: "Street address", field: 'streetaddress', sortable: true, filter: true},
+        {headerName: "Post code", field: 'postcode', sortable: true, filter: true, width: 120},
         {field: 'city', sortable: true, filter: true, width: 130},
         {field: 'email', sortable: true, filter: true},
-        {field: 'phone', sortable: true, filter: true, width: 170},
-        {
-            headerName: '',
-            width: 80,
-            field: 'links',
-            cellRenderer: params =>
-            <IconButton color="error" onClick={() => deleteCustomer(params.value)}>
-                <DeleteIcon />
-            </IconButton>
-        },
+        {headerName: "Phone number", field: 'phone', sortable: true, filter: true, width: 170},
         {
             headerName: '',
             width: 120,
             field: 'links',
-            cellRenderer: params =>
-            <EditCustomer saveCustomer={saveEditedCustomer} link={params.value}/>
+            cellRenderer: params => //send the link to the customer as props
+            <EditCustomer saveCustomer={saveEditedCustomer} link={params.value}/> //render edit button
+        },
+        {
+            headerName: '',
+            width: 80,
+            field: 'links',
+            cellRenderer: params => //call the onclick delete function with parameter link to customer
+            <IconButton color="error" onClick={() => deleteCustomer(params.value)}>
+                <DeleteIcon />
+            </IconButton> //render delete button
         }
     ]);
 

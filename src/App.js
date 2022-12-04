@@ -19,6 +19,7 @@ function App() {
           <Typography variant="h6">Personal Trainer</Typography>
         </Toolbar>
       </AppBar>
+      {/*Tabs that render different components*/}
       <Tabs value={value} onChange={handleChange}>
           <Tab value="one" label="Customers" />
           <Tab value="two" label="Trainings" />

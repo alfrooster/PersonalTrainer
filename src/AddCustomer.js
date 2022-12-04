@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -7,10 +7,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 export default function AddCustomer(props) {  
-    //komponenttiin tila, jolla saadaan kontrolloitua
-    //dialogi toimii ikkunana ja aukea modaalisesti 
+    //dialog setOpen false or true
     const [open, setOpen] = useState(false);
 
+    //customer with empty information
     const [customer, setCustomer] = useState({
       firstname: "",
       lastname: "",
@@ -21,19 +21,23 @@ export default function AddCustomer(props) {
       phone: ""
     });
   
+    //opening a dialog
     const handleClickOpen = () => {
       setOpen(true);
     };
   
+    //closing a dialog
     const handleClose = () => {
       setOpen(false);
     };
   
+    //when input changes, set attribute as the inputted value
     const handleInputChange = (event) => {
       setCustomer({ ...customer, [event.target.name]: event.target.value });
       console.log("inputchange: " + JSON.stringify(event.target.value));
     };
   
+    //saving the customer and emptying const customer
     const addCustomer = () => {
       props.saveCustomer(customer);
       setCustomer({
@@ -45,14 +49,14 @@ export default function AddCustomer(props) {
         email: "",
         phone: ""
       })
-      handleClose();
+      handleClose(); //close the dialog
     };
   
     return (
     <div>
         <Button
             style={{ margin: 10 }}
-            variant="outlined"
+            variant="contained"
             onClick={handleClickOpen}
         >
             Add

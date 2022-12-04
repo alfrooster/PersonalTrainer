@@ -7,18 +7,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 export default function EditCustomer(props) {  
-    //komponenttiin tila, jolla saadaan kontrolloitua
-    //dialogi toimii ikkunana ja aukea modaalisesti 
+    //dialog setOpen false or true 
     const [open, setOpen] = useState(false);
 
+    //empty customer constant
     const [customer, setCustomer] = useState({
-      firstname: "",
-      lastname: "",
-      streetaddress: "",
-      postcode: "",
-      city: "",
-      email: "",
-      phone: ""
+        firstname: "",
+        lastname: "",
+        streetaddress: "",
+        postcode: "",
+        city: "",
+        email: "",
+        phone: ""
     });
 
     const fetchCustomer = (link) => {
@@ -29,21 +29,25 @@ export default function EditCustomer(props) {
         console.log(customer);
     }
   
+    //opening a dialog
     const handleClickOpen = () => {
         fetchCustomer(props.link);
         console.log(customer);
         setOpen(true);
     };
   
+    //closing a dialog
     const handleClose = () => {
         setOpen(false);
     };
   
+    //when input changes, set attribute as the inputted value
     const handleInputChange = (event) => {
       setCustomer({ ...customer, [event.target.name]: event.target.value });
       console.log("inputchange: " + JSON.stringify(event.target.value));
     };
   
+    //saving the edited customer
     const editCustomer = () => {
       props.saveCustomer(customer, props.link);
       handleClose();
