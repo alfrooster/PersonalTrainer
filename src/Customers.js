@@ -1,9 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { IconButton } from '@mui/material';
+import { IconButton, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from './AddCustomer';
 import EditCustomer from './EditCustomer';
+import { CSVLink } from "react-csv";
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -11,6 +12,17 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 function Customers () {
     //list of customers
     const [customers, setCustomers] = useState([]);
+
+    //filtered customers for csv
+    const [filteredCustomers, setFilteredCustomers] = useState([]);
+
+    const filterCustomers = () => {
+        //filter customers for csv
+        setFilteredCustomers(customers.map(({content, links, ...rest}) => {
+            return rest;
+        }));
+        console.log(filteredCustomers);
+    }
 
     //fetch customers from rest
     useEffect(() => {
@@ -79,7 +91,7 @@ function Customers () {
         {headerName: "Phone number", field: 'phone', sortable: true, filter: true, width: 170},
         {
             headerName: '',
-            width: 120,
+            width: 80,
             field: 'links',
             cellRenderer: params => //send the link to the customer as props
             <EditCustomer saveCustomer={saveEditedCustomer} link={params.value}/> //render edit button
@@ -98,6 +110,9 @@ function Customers () {
     return(
         <>
             <AddCustomer saveCustomer={saveCustomer} />
+            <Button onClick={filterCustomers} style={{ margin: 10 }} variant="contained">
+                <CSVLink id="csv" data={filteredCustomers}>Download</CSVLink>
+            </Button>
             <div className="ag-theme-alpine" style={{height: '470px', width: '100%', margin: 'auto'}}>
                 <AgGridReact rowData={customers} columnDefs={columnDefs}
                     animateRows={true} rowSelection='multiple'

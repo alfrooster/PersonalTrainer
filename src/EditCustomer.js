@@ -5,6 +5,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { IconButton } from '@mui/material';
+import CreateIcon from '@mui/icons-material/Create';
 
 export default function EditCustomer(props) {  
     //dialog setOpen false or true 
@@ -55,14 +57,9 @@ export default function EditCustomer(props) {
   
     return (
     <div>
-        <Button
-            id="editbutton"
-            style={{ margin: 0 }}
-            variant="outlined"
-            onClick={handleClickOpen}
-        >
-            Edit
-        </Button>
+        <IconButton color="primary" onClick={handleClickOpen}>
+            <CreateIcon />
+        </IconButton>
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Edit a customer</DialogTitle>
             <DialogContent>

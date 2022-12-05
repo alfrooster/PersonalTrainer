@@ -58,6 +58,7 @@ export default function AddCustomer(props) {
             style={{ margin: 10 }}
             variant="contained"
             onClick={handleClickOpen}
+            id="addbutton"
         >
             Add
         </Button>
