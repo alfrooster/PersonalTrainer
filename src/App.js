@@ -5,6 +5,7 @@ import Tabs from'@mui/material/Tabs';
 import Tab from'@mui/material/Tab';
 import { useState } from 'react';
 import "./App.css";
+import Calendar from './Calendar';
 
 function App() {
   const [value, setValue] = useState('one');
@@ -23,9 +24,11 @@ function App() {
       <Tabs value={value} onChange={handleChange}>
           <Tab value="one" label="Customers" />
           <Tab value="two" label="Trainings" />
+          <Tab value="three" label="Calendar" />
       </Tabs>
       {value === 'one' && <div><Customers/></div>}
       {value === 'two' && <div><Trainings /></div>}
+      {value === 'three' && <div><Calendar /></div>}
       
     </div>
   );
