@@ -111,9 +111,11 @@ function Customers () {
     return(
         <>
             <AddCustomer saveCustomer={saveCustomer} />
-            <Button onClick={filterCustomers} style={{ margin: 10 }} variant="contained">
-                <FileDownloadOutlinedIcon><CSVLink id="csv" data={filteredCustomers}></CSVLink></FileDownloadOutlinedIcon>
-            </Button>
+            <CSVLink id="csv" data={filteredCustomers}>
+                <Button onClick={filterCustomers} style={{ margin: 10 }} variant="contained">
+                    <FileDownloadOutlinedIcon></FileDownloadOutlinedIcon>
+                </Button>
+            </CSVLink>
             <div className="ag-theme-alpine" style={{height: '470px', width: '100%', margin: 'auto'}}>
                 <AgGridReact rowData={customers} columnDefs={columnDefs}
                     animateRows={true} rowSelection='multiple'
