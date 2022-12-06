@@ -9,6 +9,7 @@ import { NativeSelect } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function AddTraining(props) {  
     //dialog setOpen false or true
@@ -66,7 +67,7 @@ export default function AddTraining(props) {
 
     //fetch a list of customers, so that a customer can be selected from dropdown
     const fetchCustomers = () => {
-      fetch("http://customerrest.herokuapp.com/getcustomers")
+      fetch("https://customerrest.herokuapp.com/getcustomers")
         .then(response => response.json())
         .then(data => setCustomers(data))
     }
@@ -91,7 +92,7 @@ export default function AddTraining(props) {
             variant="contained"
             onClick={handleClickOpen}
         >
-            Add
+            <AddIcon />
         </Button>
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add a new training</DialogTitle>

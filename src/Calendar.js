@@ -13,7 +13,7 @@ export default function AddCustomer(props) {
 
   //fetch trainings
   const fetchTrainings = () => {
-    fetch("http://customerrest.herokuapp.com/gettrainings")
+    fetch("https://customerrest.herokuapp.com/gettrainings")
       .then(response => response.json())
       .then(data => setTrainings(data))
   }

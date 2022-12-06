@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from './AddCustomer';
 import EditCustomer from './EditCustomer';
 import { CSVLink } from "react-csv";
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -33,7 +34,7 @@ function Customers () {
 
     const fetchCustomers = () => {
         //fetch customer info
-        fetch("http://customerrest.herokuapp.com/api/customers")
+        fetch("https://customerrest.herokuapp.com/api/customers")
             .then(response => response.json())
             .then(data => setCustomers(data.content))
     }
@@ -54,7 +55,7 @@ function Customers () {
 
     //send a POST request to the API to save the customer
     const saveCustomer = (customer) => {
-        fetch("http://customerrest.herokuapp.com/api/customers", {
+        fetch("https://customerrest.herokuapp.com/api/customers", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -111,7 +112,7 @@ function Customers () {
         <>
             <AddCustomer saveCustomer={saveCustomer} />
             <Button onClick={filterCustomers} style={{ margin: 10 }} variant="contained">
-                <CSVLink id="csv" data={filteredCustomers}>Download</CSVLink>
+                <FileDownloadOutlinedIcon><CSVLink id="csv" data={filteredCustomers}></CSVLink></FileDownloadOutlinedIcon>
             </Button>
             <div className="ag-theme-alpine" style={{height: '470px', width: '100%', margin: 'auto'}}>
                 <AgGridReact rowData={customers} columnDefs={columnDefs}

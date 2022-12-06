@@ -21,7 +21,7 @@ function Trainings () {
 
     const fetchTrainings = () => {
         //fetch training info
-        fetch("http://customerrest.herokuapp.com/gettrainings")
+        fetch("https://customerrest.herokuapp.com/gettrainings")
             .then(response => response.json())
             .then(data => setTrainings(data))
     }
@@ -38,7 +38,7 @@ function Trainings () {
     const deleteTraining = (id) => {
         if (window.confirm('Are you sure you want to delete training?') == true) {
             console.log("deleted " + id);
-            fetch("http://customerrest.herokuapp.com/api/trainings/" + id , {method: 'DELETE'}) //link to the specific training
+            fetch("https://customerrest.herokuapp.com/api/trainings/" + id , {method: 'DELETE'}) //link to the specific training
                 .then(response => {
                     if(response.ok) {
                         fetchTrainings();
@@ -50,7 +50,7 @@ function Trainings () {
 
     //send a POST request to the API to save the training
     const saveTraining = (training) => {
-        fetch("http://customerrest.herokuapp.com/api/trainings", {
+        fetch("https://customerrest.herokuapp.com/api/trainings", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

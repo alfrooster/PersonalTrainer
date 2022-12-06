@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import AddIcon from '@mui/icons-material/Add';
 
 export default function AddCustomer(props) {  
     //dialog setOpen false or true
@@ -60,7 +61,7 @@ export default function AddCustomer(props) {
             onClick={handleClickOpen}
             id="addbutton"
         >
-            Add
+            <AddIcon />
         </Button>
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add a new customer</DialogTitle>
