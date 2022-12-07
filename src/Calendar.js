@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-export default function AddCustomer(props) {
+export default function CalendarPage() {
   const localizer = momentLocalizer(moment);
 
   //list of trainings
@@ -23,12 +23,28 @@ export default function AddCustomer(props) {
     fetchTrainings();
   }, []);
 
+  function firstname(param) {
+    if (param != null) { //check if the customer is null, then return either name or nothing
+      return param.firstname;
+    } else {
+      return "";
+    }
+  }
+
+  function lastname(param) {
+    if (param != null) { //check if the customer is null, then return either name or nothing
+      return param.lastname;
+    } else {
+      return "";
+    }
+  }
+
   //create calendar events from trainings
   events = trainings.map(training => (
     {
       start: new Date(Date.parse(training.date)),
-      end: moment(training.date).add(training.duration, 'm').toDate(),
-      title: training.activity + " with " + training.customer.firstname + " " + training.customer.lastname
+      end: moment(training.date).add(training.duration, 'm').toDate(), //to get enddate, add training duration as minutes to startdate
+      title: training.activity + " with " + firstname(training.customer) + " " + lastname(training.customer)
     }
   ));
 
